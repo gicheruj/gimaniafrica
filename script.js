@@ -11,10 +11,40 @@ const observer = new IntersectionObserver(entries => entries.forEach(e => {
 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 const form = document.querySelector('#partner-form');
-if (form) form.addEventListener('submit', e => {
+if (form) form.addEventListener('submit', async e => {
   e.preventDefault();
-  form.querySelector('.success').style.display = 'block';
-  form.reset()
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const successMsg = form.querySelector('.success');
+  const originalBtnText = submitBtn.textContent;
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending...';
+  successMsg.style.display = 'none';
+  successMsg.textContent = 'Thank you. Your partnership enquiry is ready for the G-AFRICA team.';
+
+  try {
+    const response = await fetch(form.action, {
+      method: form.method,
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (response.ok) {
+      successMsg.style.display = 'block';
+      form.reset()
+    } else {
+      successMsg.textContent = 'Something went wrong. Please try again or email us directly.';
+      successMsg.style.color = '#b3261e';
+      successMsg.style.display = 'block'
+    }
+  } catch (err) {
+    successMsg.textContent = 'Network error. Please check your connection and try again.';
+    successMsg.style.color = '#b3261e';
+    successMsg.style.display = 'block'
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalBtnText
+  }
 });
 const slides = document.querySelector('.slides');
 if (slides) {
