@@ -1,1 +1,0 @@
-Shared navigation and footer are intentionally duplicated across static pages so this site can be hosted anywhere without a build step.
