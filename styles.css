@@ -1,5 +1,5 @@
 :root {
-  --ivory: #f8f5ee;
+  --ivory: #ffffff;
   --paper: #fffdf8;
   --navy: #071b35;
   --navy2: #102d50;
@@ -630,7 +630,7 @@ textarea {
 
 .footer img {
   width: 130px;
-  filter: brightness(0) invert(1);
+  /* filter: brightness(0) invert(1); */
   opacity: .92
 }
 
